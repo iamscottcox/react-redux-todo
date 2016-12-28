@@ -1,3 +1,27 @@
+const todo = (state, action) => {
+    switch (action.type) {
+        case 'ADD_TODO':
+            // Return a new todo with these values. It then gets added to the array used in 'ADD_TODO' in the todos reducer.
+            return {
+                id: action.id,
+                text: action.text,
+                completed: false
+            };
+        case 'TOGGLE_TODO':
+            // Return the original state if the IDs DON'T match.
+            if (state.id !== action.id) {
+                return state;
+            }
+            return {
+                // If the IDs DO match, return the current state object, but flip completed.
+                ...state,
+                completed: !state.completed
+            };
+        default:
+            return state;
+    }
+};
+
 const todos = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -16,35 +40,12 @@ const todos = (state = [], action) => {
         if (t.id === action.id) {
           index = i;
         }
+        return null;
       });
       return [
         ...state.slice(0, index),
         ...state.slice(index + 1)
       ]
-    default:
-      return state;
-  }
-};
-
-const todo = (state, action) => {
-  switch (action.type) {
-    case 'ADD_TODO':
-      // Return a new todo with these values. It then gets added to the array used in 'ADD_TODO' in the todos reducer.
-      return {
-        id: action.id,
-        text: action.text,
-        completed: false
-      };
-    case 'TOGGLE_TODO':
-      // Return the original state if the IDs DON'T match.
-      if (state.id !== action.id) {
-        return state;
-      }
-      return {
-        // If the IDs DO match, return the current state object, but flip completed.
-        ...state,
-        completed: !state.completed
-      };
     default:
       return state;
   }
