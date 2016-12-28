@@ -5,7 +5,7 @@ import todoApp from './reducers'
 import Root from './components/Root';
 import configureStore from './store/configureStore';
 
-import './styles.scss';
+import './styles.css';
 
 const store = configureStore();
 
