@@ -8,7 +8,6 @@ import TodoList from '../components/TodoList'
 class VisibleTodoList extends Component {
   componentDidMount() {
     this.fetchData();
-    console.log(this.props.onTodoClick)
   }
   componentDidUpdate(prevProps) {
     if (this.props.filter !== prevProps.filter) {
