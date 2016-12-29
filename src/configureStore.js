@@ -24,9 +24,34 @@ const loadState = () => {
   }
 };
 
+const addLoggingToDispatch = (store) => {
+  // Takes dispatch from the store
+  const rawDispatch = store.dispatch;
+  // if browser doesn't have console.group()...
+  if (!console.group) {
+    // just return dispatch from the store
+    return rawDispatch;
+  }
+  // otherwise return...
+  return ( action ) => {
+    console.group(action.type);
+    console.log('%c prev state', 'color: gray', store.getState());
+    console.log('%c action', 'color: blue', action);
+    const returnValue = rawDispatch(action);
+    console.log('%c next state', 'color: green', store.getState());
+    console.groupEnd(action.type);
+    return returnValue;
+  }
+};
+
 const configureStore = () => {
   const persistedState = loadState();
   const store = createStore(todoApp, persistedState);
+
+  if (process.env.NODE_ENV !== 'production') {
+    // Modifies store.dispatch to include logging
+    store.dispatch = addLoggingToDispatch(store);
+  }
 
   store.subscribe(throttle(() => {
     saveState({
