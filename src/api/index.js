@@ -49,6 +49,7 @@ export const addTodo = (text) => (
     fakeDatabase.todos.push(todo);
     return todo;
   }));
+
 export const toggleTodo = (id) => (
   delay(500).then(() => {
     const todo = fakeDatabase.todos.find(t => t.id === id);

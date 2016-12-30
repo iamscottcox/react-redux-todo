@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 
 const createList = (filter) => {
-
   const handleToggle = (state, action) => {
     const { result: toggledId, entities } = action.response;
     const { completed } = entities.todos[toggledId];
