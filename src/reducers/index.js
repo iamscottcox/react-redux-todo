@@ -15,9 +15,15 @@ const todos = combineReducers({
 
 export default todos;
 
-const getAllTodos = (state) => state.allIds.map(id => state.byId[id]);
+// const getAllTodos = (state) => state.allIds.map(id => state.byId[ id ]);
 
 export const getVisibleTodos = (state, filter) => {
-  const ids = fromList.getIds(state.listByFilter[filter]);
-  return ids.map(id => fromById.getTodo(state.byId, id));
+  const ids = fromList.getIds(state.listByFilter[ filter ]);
+  return ids.map(id => {
+    return fromById.getTodo(state.byId, id);
+  });
+};
+
+export const getIsFetching = (state, filter) => {
+  return fromList.getIsFetching(state.listByFilter[filter]);
 };
