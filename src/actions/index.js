@@ -1,27 +1,53 @@
-import { v4 } from 'uuid';
+import { normalize } from 'normalizr';
+import * as schema from './schema';
+import { getIsFetching } from '../reducers';
 import * as api from '../api';
 
-const receiveTodos = (filter, response) => ({
-  type: 'RECEIVE_TODOS',
-  filter,
-  response,
-});
 
-export const fetchTodos = (filter) =>
-  api.fetchTodos(filter).then(response =>
-    receiveTodos(filter, response)
+export const fetchTodos = (filter) => (dispatch, getState) => {
+  if (getIsFetching(getState(), filter)) {
+    // if fetching, break early
+    return Promise.resolve();
+  }
+  dispatch({
+    type: 'FETCH_TODOS_REQUEST',
+    filter,
+  });
+
+  return api.fetchTodos(filter).then(
+    response => {
+      dispatch({
+        type: 'FETCH_TODOS_SUCCESS',
+        filter,
+        response: normalize(response, schema.arrayOfTodos)
+      });
+    },
+    error => {
+      dispatch({
+        type: 'FETCH_TODOS_FAILURE',
+        filter,
+        message: error.message || 'Something went wrong.',
+      })
+    }
   );
+};
 
-export const addTodo = (text) => ({
-  type: 'ADD_TODO',
-  id: v4(),
-  text,
-});
+export const addTodo = (text) => (dispatch) => {
+  api.addTodo(text).then((response) => {
+      dispatch({
+        type: 'ADD_TODO_SUCCESS',
+        response: normalize(response, schema.todo)
+      })
+  })
+};
 
-export const toggleTodo = (id) => ({
-  type: 'TOGGLE_TODO',
-  id,
-});
+export const toggleTodo = (id) => (dispatch) =>
+  api.toggleTodo(id).then((response) => {
+    dispatch({
+      type: 'TOGGLE_TODO_SUCCESS',
+      response: normalize(response, schema.todo)
+    })
+  });
 
 export const removeTodo = (id) => ({
   type: 'REMOVE_TODO',
