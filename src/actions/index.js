@@ -6,7 +6,7 @@ import * as api from '../api';
 export const fetchTodos = (filter) => (dispatch, getState) => {
     // checks to see if current filter's todos are being fetched.
     if (getIsFetching(getState(), filter)) {
-        // if fetching, break early
+        // if fetching, break early and resolve the Promise
         return Promise.resolve();
     }
     // otherwise, dispatch FETCH_TODOS_REQUEST with current filter
