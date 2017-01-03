@@ -21,7 +21,7 @@ const fakeDatabase = {
     ],
 };
 
-// A function that imitates that latency that would be found whilst making requests to a server
+// A function that imitates the latency that would be found whilst making requests to a server
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 // Function used to fetchTodos based on the filter
 export const fetchTodos = (filter) =>
