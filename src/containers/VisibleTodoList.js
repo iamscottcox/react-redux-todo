@@ -7,22 +7,28 @@ import TodoList from '../components/TodoList'
 import FetchError from '../components/FetchError';
 
 class VisibleTodoList extends Component {
+
+  fetchData() {
+    const { filter, fetchTodos } = this.props;
+    console.log(this.props);
+    // fetchTodos is passed in with actions in connect()
+    fetchTodos(filter);
+  }
+
   componentDidMount() {
     this.fetchData();
   }
 
   componentDidUpdate(prevProps) {
+    // If the filter now is different to the previous filter...
     if (this.props.filter !== prevProps.filter) {
+      // ...fetch new data
       this.fetchData();
     }
   }
 
-  fetchData() {
-    const { filter, fetchTodos } = this.props;
-    fetchTodos(filter);
-  }
-
   render() {
+    // toggleTodo => action, [todos, isFetching, errorMessage] => mapStateToProps
     const { toggleTodo, todos, isFetching, errorMessage } = this.props;
     if (isFetching && !todos.length) {
       return <p>Loading...</p>;
@@ -54,6 +60,7 @@ const mapStateToProps = (state, { params }) => {
   }
 };
 
+// withRouter makes sure that React-Router props are passed to VisibleTodoList
 VisibleTodoList = withRouter(connect(
   mapStateToProps,
   actions
