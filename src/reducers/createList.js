@@ -28,8 +28,9 @@ const createList = (filter) => {
           action.response.result :
           state;
       case 'ADD_TODO_SUCCESS':
-        console.log(action);
+        // if filter is not completed...
         return filter !== 'completed' ?
+          // ...add id to current ids...
           [...state, action.response.result] :
           state;
       case 'TOGGLE_TODO_SUCCESS':
@@ -43,10 +44,12 @@ const createList = (filter) => {
       return state;
     }
     switch (action.type) {
+      // When a request is made, isFetching returns true
       case 'FETCH_TODOS_REQUEST':
         return true;
       case 'FETCH_TODOS_SUCCESS':
       case 'FETCH_TODOS_FAILURE':
+        // On success OR fail, isFetching reverts back to false
         return false;
       default:
         return state;
@@ -59,15 +62,17 @@ const createList = (filter) => {
     }
     switch (action.type) {
       case 'FETCH_TODOS_FAILURE':
+        // Logs the error message
         return action.message;
       case 'FETCH_TODOS_REQUEST':
       case 'FETCH_TODOS_SUCCESS':
+        // Clears the error message
         return null;
       default:
         return state;
     }
   };
-
+  // Returns a reducer made out of all of the reducers in this function to be exported later
   return combineReducers({
     ids,
     isFetching,
@@ -75,8 +80,10 @@ const createList = (filter) => {
   });
 };
 
+
 export default createList;
 
+// These are selector functions that return a value from state
 export const getIds = (state) => state.ids;
 export const getIsFetching = (state) => state.isFetching;
 export const getErrorMessage = (state) => state.errorMessage;
