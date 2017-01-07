@@ -10,7 +10,6 @@ class VisibleTodoList extends Component {
 
   fetchData() {
     const { filter, fetchTodos } = this.props;
-    console.log(this.props);
     // fetchTodos is passed in with actions in connect()
     fetchTodos(filter);
   }
@@ -30,9 +29,11 @@ class VisibleTodoList extends Component {
   render() {
     // toggleTodo => action, [todos, isFetching, errorMessage] => mapStateToProps
     const { toggleTodo, todos, isFetching, errorMessage } = this.props;
+    // isFetching and no todos
     if (isFetching && !todos.length) {
       return <p>Loading...</p>;
     }
+    // errorMessage and no todos
     if (errorMessage && !todos.length) {
       return (
         <FetchError
@@ -41,6 +42,7 @@ class VisibleTodoList extends Component {
         />
       )
     }
+    // Otherwise return the TodoList
     return (
       <TodoList
         todos={todos}
@@ -56,6 +58,7 @@ const mapStateToProps = (state, { params }) => {
     todos: getVisibleTodos(state, filter),
     errorMessage: getErrorMessage(state, filter),
     isFetching: getIsFetching(state, filter),
+    // filter is passed in so it can be used more easily by VisibleTodoList
     filter
   }
 };

@@ -5,17 +5,23 @@ import { addTodo } from '../actions'
 let AddTodo = ({ dispatch }) => {
   let input;
   return (
-    <form id="AddTodo" className="add-todo" onSubmit={(e) => {
-      e.preventDefault();
-      if (input.value.length > 0) {
-        dispatch(addTodo(input.value));
-        input.value = '';
-      }
-    }}>
-      <input type="text" ref={node => {
-        input = node
-      }} placeholder="Add a todo..."/>
-      <button type="submit"><i className="fa fa-plus"></i></button>
+    <form id="AddTodo"
+          className="add-todo"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (input.value.length > 0) {
+              dispatch(addTodo(input.value));
+              input.value = '';
+            }
+          }}>
+      <input type="text"
+             ref={node => {
+               input = node
+             }}
+             placeholder="Add a todo..."/>
+      <button type="submit">
+        <i className="fa fa-plus"></i>
+      </button>
     </form>
   )
 }

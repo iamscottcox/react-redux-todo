@@ -7,6 +7,7 @@ import App from './App';
 const Root = ({ store }) => (
   <Provider store={store}>
     <Router history={browserHistory}>
+      {/*Filter is an optional parameter*/}
       <Route path="/(:filter)" component={App} />
     </Router>
   </Provider>

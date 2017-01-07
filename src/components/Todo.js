@@ -9,11 +9,10 @@ const Todo = ({
 }) => (
   <li
     onClick={onClick}
-    className={"todo" + (completed ? " todo-completed" : "")}
-  >
+    className={"todo" + (completed ? " todo-completed" : "")}>
     <i className={"fa " + (completed ? 'fa-dot-circle-o' : 'fa-circle-o')}></i>
     {text}
-    <RemoveButton value={id} />
+    <RemoveButton value={id}/>
   </li>
 )
 
